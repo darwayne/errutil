@@ -2,7 +2,7 @@ module github.com/darwayne/errutil
 
 go 1.17
 
-require github.com/darwayne/builder-gen v1.5.1
+require github.com/darwayne/builder-gen v1.6.0
 
 require (
 	golang.org/x/mod v0.3.0 // indirect

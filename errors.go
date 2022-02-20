@@ -24,7 +24,7 @@ var (
 )
 
 type Opts struct {
-	//::builder-gen -no-builder -with-globals -prefix=With
+	//::builder-gen -no-builder -with-globals -prefix=With -with-optional-bools
 	AccessDenied bool
 	Conflict     bool
 	NotFound     bool

@@ -16,38 +16,38 @@ func ToOptsWithDefault(info *Opts, opts ...OptsFunc) {
 	}
 }
 
-func WithAccessDenied(accessDeniedParam bool) OptsFunc {
+func WithAccessDenied(accessDeniedParam ...bool) OptsFunc {
 	return func(opts *Opts) {
-		opts.AccessDenied = accessDeniedParam
+		opts.AccessDenied = len(accessDeniedParam) == 0 || accessDeniedParam[0]
 	}
 }
 
-func WithConflict(conflictParam bool) OptsFunc {
+func WithConflict(conflictParam ...bool) OptsFunc {
 	return func(opts *Opts) {
-		opts.Conflict = conflictParam
+		opts.Conflict = len(conflictParam) == 0 || conflictParam[0]
 	}
 }
 
-func WithNotFound(notFoundParam bool) OptsFunc {
+func WithNotFound(notFoundParam ...bool) OptsFunc {
 	return func(opts *Opts) {
-		opts.NotFound = notFoundParam
+		opts.NotFound = len(notFoundParam) == 0 || notFoundParam[0]
 	}
 }
 
-func WithExists(existsParam bool) OptsFunc {
+func WithExists(existsParam ...bool) OptsFunc {
 	return func(opts *Opts) {
-		opts.Exists = existsParam
+		opts.Exists = len(existsParam) == 0 || existsParam[0]
 	}
 }
 
-func WithTooLarge(tooLargeParam bool) OptsFunc {
+func WithTooLarge(tooLargeParam ...bool) OptsFunc {
 	return func(opts *Opts) {
-		opts.TooLarge = tooLargeParam
+		opts.TooLarge = len(tooLargeParam) == 0 || tooLargeParam[0]
 	}
 }
 
-func WithRateLimit(rateLimitParam bool) OptsFunc {
+func WithRateLimit(rateLimitParam ...bool) OptsFunc {
 	return func(opts *Opts) {
-		opts.RateLimit = rateLimitParam
+		opts.RateLimit = len(rateLimitParam) == 0 || rateLimitParam[0]
 	}
 }
