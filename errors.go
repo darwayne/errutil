@@ -10,6 +10,10 @@ func New(err error, opts ...OptsFunc) error {
 		error: err,
 	}
 
+	if len(e.opts.Tags) > 0 {
+		e.error = NewTagged(err, e.opts.Tags...)
+	}
+
 	return e
 }
 
@@ -31,6 +35,7 @@ type Opts struct {
 	Exists       bool
 	TooLarge     bool
 	RateLimit    bool
+	Tags         []Tag
 }
 
 type multiKindErr struct {

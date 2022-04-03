@@ -80,6 +80,33 @@ func TestNewError(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("should handle tagged errors as expected", func(t *testing.T) {
+		e := New(errors.New("hi"), WithTags(NewTag("what", "is"), NewTag("hello", "world")))
+		if !IsTaggable(e) {
+			t.Fatal("expected IsTaggable to return true")
+		}
+
+		if tags := GetTags(e); len(tags) != 2 {
+			t.Fatalf("expected 2 tags back but got %d", len(tags))
+		} else {
+			t.Log(tags)
+		}
+
+		t.Run("should handle nested tags as well", func(t *testing.T) {
+			nested := New(e, WithEasyTags("yes", "sir", "will", "be"))
+			if !IsTaggable(nested) {
+				t.Fatal("expected IsTaggable to return true")
+			}
+
+			if tags := GetTags(nested); len(tags) != 4 {
+				t.Fatalf("expected 4 tags back but got %d", len(tags))
+			} else {
+				t.Log(tags)
+			}
+		})
+
+	})
 }
 
 var allFuncs = []CheckerFn{

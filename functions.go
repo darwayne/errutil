@@ -1,6 +1,8 @@
 package errutil
 
-import "errors"
+import (
+	"errors"
+)
 
 type CheckerFn func(error) bool
 
@@ -86,4 +88,50 @@ func IsTooLarge(err error) bool {
 	}
 
 	return IsTooLarge(errors.Unwrap(err))
+}
+
+// IsTaggable checks if an error exhibits taggable behavior
+func IsTaggable(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	var e Taggable
+	if errors.As(err, &e) && len(e.Tags()) > 0 {
+		return true
+	}
+
+	return IsTaggable(errors.Unwrap(err))
+}
+
+// GetTags returns all the tags for a given error
+func GetTags(err error) []Tag {
+	var tags []Tag
+	for {
+		if err == nil {
+			break
+		}
+		var e Tagged
+		if errors.As(err, &e) && len(e.Tags()) > 0 {
+			tags = append(tags, e.Tags()...)
+		}
+
+		err = errors.Unwrap(e)
+	}
+
+	return tags
+}
+
+func WithEasyTags(key, value string, additionalKvs ...string) OptsFunc {
+	return func(opts *Opts) {
+		tags := make([]Tag, 0, 10)
+		tags = append(tags, Tag{Key: key, Value: value})
+		if len(additionalKvs) > 0 && len(additionalKvs)%2 == 0 {
+			for i := 0; i < len(additionalKvs); i = i + 2 {
+				tags = append(tags, Tag{Key: additionalKvs[i], Value: additionalKvs[i+1]})
+			}
+		}
+
+		opts.Tags = tags
+	}
 }

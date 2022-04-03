@@ -29,3 +29,8 @@ type Conflicter interface {
 type TooLarge interface {
 	TooLarge() bool
 }
+
+// Taggable determines if an error exhibits tag behavior
+type Taggable interface {
+	Tags() []Tag
+}
