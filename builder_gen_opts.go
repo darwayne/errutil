@@ -5,6 +5,10 @@ func (o Opts) HasTags() bool {
 	return o.Tags != nil
 }
 
+func (o Opts) HasStackTrace() bool {
+	return o.StackTrace != nil
+}
+
 type OptsFunc func(*Opts)
 
 func ToOpts(opts ...OptsFunc) Opts {
@@ -59,5 +63,11 @@ func WithRateLimit(rateLimitParam ...bool) OptsFunc {
 func WithTags(tagsParam ...Tag) OptsFunc {
 	return func(opts *Opts) {
 		opts.Tags = tagsParam
+	}
+}
+
+func WithStackTrace(stackTraceParam int) OptsFunc {
+	return func(opts *Opts) {
+		opts.StackTrace = &stackTraceParam
 	}
 }

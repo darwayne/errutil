@@ -104,6 +104,20 @@ func IsTaggable(err error) bool {
 	return IsTaggable(errors.Unwrap(err))
 }
 
+// IsStackTraceable checks if an error exhibits taggable behavior
+func IsStackTraceable(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	var e StackTraceable
+	if errors.As(err, &e) {
+		return true
+	}
+
+	return IsStackTraceable(errors.Unwrap(err))
+}
+
 // GetTags returns all the tags for a given error
 func GetTags(err error) []Tag {
 	var tags []Tag

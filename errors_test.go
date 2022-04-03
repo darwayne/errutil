@@ -107,6 +107,11 @@ func TestNewError(t *testing.T) {
 		})
 
 	})
+
+	t.Run("should generate stack trace when option provided", func(t *testing.T) {
+		err := New(errors.New("hey there"), WithStackTrace(0))
+		fmt.Printf("%+v\n", err)
+	})
 }
 
 var allFuncs = []CheckerFn{

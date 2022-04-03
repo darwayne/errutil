@@ -1,5 +1,10 @@
 package errutil
 
+import (
+	"fmt"
+	"strings"
+)
+
 // New creates a new error with the ability to add multiple behavior to that error
 // e.g.
 //
@@ -12,6 +17,9 @@ func New(err error, opts ...OptsFunc) error {
 
 	if len(e.opts.Tags) > 0 {
 		e.error = NewTagged(err, e.opts.Tags...)
+	}
+	if e.opts.StackTrace != nil {
+		e.error = NewStacked(err, *e.opts.StackTrace+1)
 	}
 
 	return e
@@ -36,6 +44,7 @@ type Opts struct {
 	TooLarge     bool
 	RateLimit    bool
 	Tags         []Tag
+	StackTrace   *int
 }
 
 type multiKindErr struct {
@@ -54,6 +63,21 @@ func (m multiKindErr) Conflict() bool {
 
 func (m multiKindErr) Exists() bool {
 	return m.opts.Exists
+}
+
+func (m multiKindErr) Format(s fmt.State, verb rune) {
+	if formatter, ok := m.error.(fmt.Formatter); ok {
+		formatter.Format(s, verb)
+		return
+	} else {
+		var builder strings.Builder
+		builder.WriteString("%")
+		if s.Flag('+') {
+			builder.WriteRune('+')
+		}
+		builder.WriteRune(verb)
+		fmt.Fprintf(s, builder.String(), m.error)
+	}
 }
 
 func (m multiKindErr) NotFound() bool {

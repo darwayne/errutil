@@ -1,5 +1,7 @@
 package errutil
 
+import "github.com/pkg/errors"
+
 // AccessDenier determines if an error exhibits access denied behavior
 type AccessDenier interface {
 	AccessDenied() bool
@@ -33,4 +35,9 @@ type TooLarge interface {
 // Taggable determines if an error exhibits tag behavior
 type Taggable interface {
 	Tags() []Tag
+}
+
+// StackTraceable determines if an error exhibits stacktrace behavior from the pkg/errors package
+type StackTraceable interface {
+	StackTrace() errors.StackTrace
 }
