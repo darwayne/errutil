@@ -1,17 +1,18 @@
 package errutil
 
-func NewCode(err error, msg string) error {
-	return code{
+// NewCode adds code to an error
+func NewCode(err error, code string) error {
+	return coded{
 		wrappedError: wrappedError{error: err},
-		msg:          msg,
+		code:         code,
 	}
 }
 
-type code struct {
+type coded struct {
 	wrappedError
-	msg string
+	code string
 }
 
-func (c code) Code() string {
-	return c.msg
+func (c coded) Code() string {
+	return c.code
 }

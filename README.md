@@ -1,3 +1,6 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/darwayne/errutil)](https://goreportcard.com/report/github.com/darwayne/errutil)
+[![GoDoc](https://godoc.org/github.com/darwayne/errutil?status.svg)](https://godoc.org/github.com/darwayne/errutil)
+![license](https://img.shields.io/github/license/darwayne/errutil)
 # errutil
 
 Package errutil provides simple error utilities predominantly around behavioral errors and panicked errors
