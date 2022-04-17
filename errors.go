@@ -1,15 +1,16 @@
 package errutil
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 )
 
-// New creates a new error with the ability to add multiple behavior to that error
+// Wrap wraps an error with the ability to add multiple behavior to that error
 // e.g.
 //
-// New(errors.New("my error"), WithAccessDenied(true), WithRateLimit(true))
-func New(err error, opts ...OptsFunc) error {
+// Wrap(errors.New("my error"), WithAccessDenied(true), WithRateLimit(true))
+func Wrap(err error, opts ...OptsFunc) error {
 	e := multiKindErr{
 		opts:  ToOpts(opts...),
 		error: err,
@@ -19,10 +20,25 @@ func New(err error, opts ...OptsFunc) error {
 		e.error = NewTagged(err, e.opts.Tags...)
 	}
 	if e.opts.StackTrace != nil {
-		e.error = NewStacked(err, *e.opts.StackTrace+1)
+		e.error = NewStacked(e.error, *e.opts.StackTrace+1)
 	}
 
 	return e
+}
+
+// New creates a new error with the ability to add multiple behavior to that error
+// e.g.
+//
+// New("my error", WithAccessDenied(true), WithRateLimit(true))
+func New(message string, opts ...OptsFunc) error {
+	info := ToOpts(opts...)
+	if info.StackTrace != nil {
+		opts = append(opts, WithStackTrace(*info.StackTrace+1))
+	} else {
+		opts = append(opts, WithStackTrace(1))
+	}
+
+	return Wrap(errors.New(message), opts...)
 }
 
 var (
