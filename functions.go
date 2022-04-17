@@ -76,6 +76,60 @@ func IsRateLimit(err error) bool {
 	return IsRateLimit(errors.Unwrap(err))
 }
 
+// IsTemporary checks if an error exhibits Temporary behavior
+func IsTemporary(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	var e Temporarily
+	if errors.As(err, &e) && e.Temporary() {
+		return true
+	}
+
+	return IsTemporary(errors.Unwrap(err))
+}
+
+// IsStatusCodeable checks if an error exhibits StatusCodeable behavior
+func IsStatusCodeable(err error) bool {
+	var e StatusCodeable
+	if err == nil || !errors.As(err, &e) {
+		return false
+	}
+
+	return true
+}
+
+// IsCodeable checks if an error exhibits Codeable behavior
+func IsCodeable(err error) bool {
+	var e Codeable
+	if err == nil || !errors.As(err, &e) {
+		return false
+	}
+
+	return true
+}
+
+// GetStatusCode returns the status code for an error if it has one
+func GetStatusCode(err error) int {
+	var e StatusCodeable
+	if err == nil || !errors.As(err, &e) {
+		return 0
+	}
+
+	return e.StatusCode()
+}
+
+// GetCode returns the code for an error if it has one
+func GetCode(err error) string {
+	var e Codeable
+	if err == nil || !errors.As(err, &e) {
+		return ""
+	}
+
+	return e.Code()
+}
+
 // IsTooLarge checks if an error exhibits TooLarger behavior
 func IsTooLarge(err error) bool {
 	if err == nil {
@@ -88,6 +142,40 @@ func IsTooLarge(err error) bool {
 	}
 
 	return IsTooLarge(errors.Unwrap(err))
+}
+
+// IsTooManyRequests checks if an error exhibits TooManyRequester behavior
+func IsTooManyRequests(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	var e TooManyRequester
+	if errors.As(err, &e) && e.TooManyRequests() {
+		return true
+	}
+
+	return IsTooManyRequests(errors.Unwrap(err))
+}
+
+// IsInternalErrorMessage checks if an error exhibits InternalErrorMessagable behavior
+func IsInternalErrorMessage(err error) bool {
+	var e InternalErrorMessagable
+	if err == nil || errors.As(err, &e) {
+		return false
+	}
+
+	return true
+}
+
+// GetInternalErrorMessage returns the internal error message for an error if it has one
+func GetInternalErrorMessage(err error) string {
+	var e InternalErrorMessagable
+	if err == nil || !errors.As(err, &e) {
+		return ""
+	}
+
+	return e.InternalErrorMessage()
 }
 
 // IsTaggable checks if an error exhibits taggable behavior
@@ -116,6 +204,20 @@ func IsStackTraceable(err error) bool {
 	}
 
 	return IsStackTraceable(errors.Unwrap(err))
+}
+
+// IsUnauthorized checks if an error exhibits Unauthorized behavior
+func IsUnauthorized(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	var e Unauthorizable
+	if errors.As(err, &e) && e.Unauthorized() {
+		return true
+	}
+
+	return IsUnauthorized(errors.Unwrap(err))
 }
 
 // GetTags returns all the tags for a given error

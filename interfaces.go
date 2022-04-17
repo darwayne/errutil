@@ -41,3 +41,29 @@ type Taggable interface {
 type StackTraceable interface {
 	StackTrace() errors.StackTrace
 }
+
+// Temporarily determines if an error exhibits temporary behavior
+type Temporarily interface {
+	Temporary() bool
+}
+
+type TooManyRequester interface {
+	TooManyRequests() bool
+}
+
+type StatusCodeable interface {
+	StatusCode() int
+}
+
+type Codeable interface {
+	Code() string
+}
+
+type InternalErrorMessagable interface {
+	InternalErrorMessage() string
+}
+
+// Unauthorizable determines if an error exhibits temporary behavior
+type Unauthorizable interface {
+	Unauthorized() bool
+}
