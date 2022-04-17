@@ -9,6 +9,18 @@ func (o Opts) HasStackTrace() bool {
 	return o.StackTrace != nil
 }
 
+func (o Opts) HasInternalErrorMessage() bool {
+	return o.InternalErrorMessage != nil
+}
+
+func (o Opts) HasCode() bool {
+	return o.Code != nil
+}
+
+func (o Opts) HasStatusCode() bool {
+	return o.StatusCode != nil
+}
+
 type OptsFunc func(*Opts)
 
 func ToOpts(opts ...OptsFunc) Opts {
@@ -69,5 +81,41 @@ func WithTags(tagsParam ...Tag) OptsFunc {
 func WithStackTrace(stackTraceParam int) OptsFunc {
 	return func(opts *Opts) {
 		opts.StackTrace = &stackTraceParam
+	}
+}
+
+func WithUnauthorized(unauthorizedParam ...bool) OptsFunc {
+	return func(opts *Opts) {
+		opts.Unauthorized = len(unauthorizedParam) == 0 || unauthorizedParam[0]
+	}
+}
+
+func WithTemporary(temporaryParam ...bool) OptsFunc {
+	return func(opts *Opts) {
+		opts.Temporary = len(temporaryParam) == 0 || temporaryParam[0]
+	}
+}
+
+func WithInternalErrorMessage(internalErrorMessageParam string) OptsFunc {
+	return func(opts *Opts) {
+		opts.InternalErrorMessage = &internalErrorMessageParam
+	}
+}
+
+func WithCode(codeParam string) OptsFunc {
+	return func(opts *Opts) {
+		opts.Code = &codeParam
+	}
+}
+
+func WithStatusCode(statusCodeParam int) OptsFunc {
+	return func(opts *Opts) {
+		opts.StatusCode = &statusCodeParam
+	}
+}
+
+func WithTooManyRequests(tooManyRequestsParam ...bool) OptsFunc {
+	return func(opts *Opts) {
+		opts.TooManyRequests = len(tooManyRequestsParam) == 0 || tooManyRequestsParam[0]
 	}
 }

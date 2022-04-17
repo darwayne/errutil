@@ -2,22 +2,18 @@ package errutil
 
 func NewTagged(err error, tags ...Tag) error {
 	return Tagged{
-		error: err,
-		tags:  tags,
+		wrappedError: wrappedError{error: err},
+		tags:         tags,
 	}
 }
 
 type Tagged struct {
-	error
+	wrappedError
 	tags []Tag
 }
 
 func (t Tagged) Tags() []Tag {
 	return t.tags
-}
-
-func (t Tagged) Unwrap() error {
-	return t.error
 }
 
 func NewTag(key, value string) Tag {
