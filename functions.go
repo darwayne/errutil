@@ -161,7 +161,7 @@ func IsTooManyRequests(err error) bool {
 // IsInternalErrorMessage checks if an error exhibits InternalErrorMessagable behavior
 func IsInternalErrorMessage(err error) bool {
 	var e InternalErrorMessagable
-	if err == nil || errors.As(err, &e) {
+	if err == nil || !errors.As(err, &e) {
 		return false
 	}
 

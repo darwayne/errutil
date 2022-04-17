@@ -1,5 +1,6 @@
 package errutil
 
+// NewTagged adds tags to an error
 func NewTagged(err error, tags ...Tag) error {
 	return Tagged{
 		wrappedError: wrappedError{error: err},

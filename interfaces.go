@@ -47,23 +47,27 @@ type Temporarily interface {
 	Temporary() bool
 }
 
+// TooManyRequester determines if an error exhibits too many requests
 type TooManyRequester interface {
 	TooManyRequests() bool
 }
 
+// StatusCodeable determines if an error has a status code
 type StatusCodeable interface {
 	StatusCode() int
 }
 
+// Codeable determines if an error exhibits code behavior
 type Codeable interface {
 	Code() string
 }
 
+// InternalErrorMessagable determines if an error has an internal error message
 type InternalErrorMessagable interface {
 	InternalErrorMessage() string
 }
 
-// Unauthorizable determines if an error exhibits temporary behavior
+// Unauthorizable determines if an error exhibits unauthorized behavior
 type Unauthorizable interface {
 	Unauthorized() bool
 }

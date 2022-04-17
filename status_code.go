@@ -1,5 +1,6 @@
 package errutil
 
+// NewStatusCode adds a status code to an error
 func NewStatusCode(err error, code int) error {
 	return statusCode{
 		wrappedError: wrappedError{error: err},

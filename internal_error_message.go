@@ -1,5 +1,6 @@
 package errutil
 
+// NewInternalErrorMessage adds an internal message to an error
 func NewInternalErrorMessage(err error, msg string) error {
 	return internalErrorMessage{
 		wrappedError: wrappedError{error: err},
