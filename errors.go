@@ -21,6 +21,8 @@ func Wrap(err error, opts ...OptsFunc) error {
 	}
 	if e.opts.StackTrace != nil {
 		e.error = NewStacked(e.error, *e.opts.StackTrace+1)
+	} else {
+		e.error = NewStacked(e.error, 1)
 	}
 
 	return e
