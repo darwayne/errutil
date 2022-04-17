@@ -17,7 +17,14 @@ if err == "ruh oh" {
 ```go
 func myFunc() error {
     const myErr errutil.StringErr = "ruh oh"
-    return errutil.New(myErr, errutil.WithNotFound(true), errutil.WithConflict(true))
+    return errutil.Wrap(myErr, errutil.WithNotFound(), errutil.WithConflict())
+}
+
+func myFunc2() error {
+    return errutil.New("ruh oh", errutil.WithEasyTags(
+		"example", "yes",
+		"component", "main",
+		))
 }
 
 func main(){
@@ -25,8 +32,12 @@ func main(){
 	if err != nil && errutil.IsNotFound(err) || errutil.IsConflict(err) {
 	    fmt.Println("not found or conflict behavior detected .. handling")	
    }
-}
 
+   err = myFunc2()
+	if errutil.IsTaggable(err) {
+		fmt.Printf("error tags are: %+v", errutil.GetTags(err))
+	}
+}
 ```
 
 ### Handling Panicked Errors
