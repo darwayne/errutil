@@ -53,13 +53,16 @@ func New(message string, opts ...OptsFunc) error {
 }
 
 var (
-	_ AccessDenier = (*multiKindErr)(nil)
-	_ Conflicter   = (*multiKindErr)(nil)
-	_ Exister      = (*multiKindErr)(nil)
-	_ NotFounder   = (*multiKindErr)(nil)
-	_ RateLimiter  = (*multiKindErr)(nil)
-	_ TooLarge     = (*multiKindErr)(nil)
-	_ error        = (*multiKindErr)(nil)
+	_ AccessDenier     = (*multiKindErr)(nil)
+	_ Conflicter       = (*multiKindErr)(nil)
+	_ Exister          = (*multiKindErr)(nil)
+	_ NotFounder       = (*multiKindErr)(nil)
+	_ RateLimiter      = (*multiKindErr)(nil)
+	_ TooLarge         = (*multiKindErr)(nil)
+	_ TooManyRequester = (*multiKindErr)(nil)
+	_ Temporarily      = (*multiKindErr)(nil)
+	_ Unauthorizable   = (*multiKindErr)(nil)
+	_ error            = (*multiKindErr)(nil)
 )
 
 type Opts struct {
