@@ -2,6 +2,10 @@ package errutil
 
 // NewCode adds code to an error
 func NewCode(err error, code string) error {
+	if err == nil {
+		return nil
+	}
+
 	return coded{
 		wrappedError: wrappedError{error: err},
 		code:         code,

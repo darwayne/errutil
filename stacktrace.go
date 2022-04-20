@@ -2,9 +2,10 @@ package errutil
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"io"
 	"runtime"
+
+	"github.com/pkg/errors"
 )
 
 func NewStacked(err error, skip ...int) error {

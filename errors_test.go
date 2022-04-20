@@ -70,6 +70,13 @@ func TestWrapError(t *testing.T) {
 			}
 		})
 
+		t.Run("with nil error", func(t *testing.T) {
+			err := Wrap(nil, WithNotFound())
+			if err != nil {
+				t.Fatal("expected nil")
+			}
+		})
+
 	})
 
 	t.Run("should handle tagged errors as expected", func(t *testing.T) {
