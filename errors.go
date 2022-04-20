@@ -11,6 +11,10 @@ import (
 //
 // Wrap(errors.New("my error"), WithAccessDenied(true), WithRateLimit(true))
 func Wrap(err error, opts ...OptsFunc) error {
+	if err == nil {
+		return nil
+	}
+
 	e := multiKindErr{
 		opts:  ToOpts(opts...),
 		error: err,
